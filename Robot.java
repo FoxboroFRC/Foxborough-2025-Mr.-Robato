@@ -5,8 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.ExampleCommand;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.util.OI;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -14,7 +19,17 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+  public static DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static OI oi;
+  private Command autonomousCommand;
+  SendableChooser<Command> chooser = new SendableChooser<>();
+
+  @Override
+  public void robotInit(){
+    oi = new OI();
+    //chooser.addDefault("Default Auto", new ExampleCommand());
+    SmartDashboard.putData("Auto mode", chooser);
+  }
 
   private final RobotContainer m_robotContainer;
 

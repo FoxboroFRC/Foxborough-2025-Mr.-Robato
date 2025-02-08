@@ -1,7 +1,9 @@
 package frc.robot.util;
 
 public class RoboMap {
-  public static int leftGroup = 1;
-  public static int rightGroup = 2;
+  public static int masterLeftGroup = 6;
+  public static int slaveLeftGroup = 1;
+  public static int masterRightGroup = 5;
+  public static int slaveRightGroup = 3;
 
 }

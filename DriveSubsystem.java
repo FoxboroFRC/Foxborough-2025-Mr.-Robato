@@ -23,8 +23,7 @@ public class DriveSubsystem extends SubsystemBase
 
     public DriveSubsystem() {
         //point slaves to masters
-        leftGroup.setSafetyEnabled(false);
-        rightGroup.setSafetyEnabled(false);
+        
         leftSlave.set(leftGroup.get()); //same thing as .follow
         rightSlave.set(rightGroup.get());
         
@@ -33,6 +32,8 @@ public class DriveSubsystem extends SubsystemBase
     public void manualDrive(double move, double turn){
         //if(move > 0.05) move = 0.05;
         //if(turn > 0.5) turn = -1;
+        leftGroup.setSafetyEnabled(false);
+        rightGroup.setSafetyEnabled(false);
         drive.arcadeDrive(move, turn);
     }
 }

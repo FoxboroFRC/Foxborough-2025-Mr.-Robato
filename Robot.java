@@ -88,16 +88,16 @@ public void robotInit() {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    if (autonomousCommand == null) {
-         autonomousCommand.cancel();
-     }
+    //if (autonomousCommand == null) {
+      //   autonomousCommand.cancel();
+     //}
     
   }
 
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    
+    System.out.println("Telop");
   }
 
   @Override
@@ -110,7 +110,8 @@ public void robotInit() {
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-   
+    m_robotContainer.m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
+   System.out.println("Test");
   }
 
   /** This function is called once when the robot is first started up. */

@@ -20,9 +20,30 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand;
   SendableChooser<Command> chooser = new SendableChooser<>();
 
+  public class DriveManuallyCommand extends Command {
+  private final RobotContainer robotContainer;
+
+  public DriveManuallyCommand(RobotContainer container) {
+    addRequirements(Robot.driveSubsystem);
+    this.robotContainer = container;
+  }
+
+    @Override
+  public void execute() {
+    double move = -robotContainer.m_driverController.getLeftY();
+    double turn = robotContainer.m_driverController.getRightX();
+    Robot.driveSubsystem.manualDrive(move, turn);
+  }
+
+  @Override
+  public boolean isFinished() {
+    return false;
+  }
+
   @Override
 public void robotInit() {
     oi = new OI();  // This must run before any joystick calls
+  m_robotContainer = new RobotContainer();  
     SmartDashboard.putData("Auto mode", chooser);
     
 }
@@ -70,9 +91,9 @@ public void robotInit() {
   public void autonomousInit() {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
-    // if (m_autonomousCommand != null) {
-    //     m_autonomousCommand.schedule();
-    // }
+    if (autonomousCommand != null) {
+        autonomousCommand.cancel();
+     }
   }
 
   /** This function is called periodically during autonomous. */

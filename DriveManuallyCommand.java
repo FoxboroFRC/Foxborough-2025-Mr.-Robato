@@ -20,16 +20,18 @@ public class DriveManuallyCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
-
+  RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
   // Called every time the scheduler runs while the command is scheduled.
+  double move = -1 * robotContainer.m_driverController.getLeftY();
+double turn = robotContainer.m_driverController.getRightX();
+  Robot.driveSubsystem.manualDrive(move, turn);
+  
   @Override
   public void execute() {
 
   // Called once the command ends or is interrupted.
-  RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
-double move = -1 * robotContainer.m_driverController.getLeftY();
-double turn = robotContainer.m_driverController.getRightX();
-  Robot.driveSubsystem.manualDrive(move, turn);
+ // RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
+System.out.println("Done");
   }
 
 

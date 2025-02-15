@@ -22,10 +22,11 @@ public class DriveSubsystem extends SubsystemBase
 
     public DriveSubsystem() {
         //point slaves to masters
-        leftSlave.set(leftGroup.get()); //same thing as .follow
-        rightSlave.set(rightGroup.get());
         leftGroup.setSafetyEnabled(false);
         rightGroup.setSafetyEnabled(false);
+        leftSlave.set(leftGroup.get()); //same thing as .follow
+        rightSlave.set(rightGroup.get());
+        
     }
 
     public void manualDrive(double move, double turn){

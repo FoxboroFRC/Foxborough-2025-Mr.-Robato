@@ -16,5 +16,5 @@ public static int rightSlavePort= 3;
 public static int joystickPort = 0; //joystick ports
 
 
-public static int wheelDiameter; //need to upload the wheel diameter
+public static int wheelDiameter = 6; //need to upload the wheel diameter
 }

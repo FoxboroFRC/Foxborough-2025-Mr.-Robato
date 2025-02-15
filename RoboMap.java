@@ -1,5 +1,6 @@
 package frc.robot.util;
 
+
 public class RoboMap {
 //motors, solanoid sensors, esc(speed controllers), the game controller, the sticks, sensors, 
 //public static final int [] Left_GROUP = {0,1};//Left Motor Group

@@ -7,12 +7,14 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.subsystems.DriveSubsystem;
 
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveManuallyCommand extends Command {
   /** Creates a new DriveManuallyCommand. */
   public DriveManuallyCommand() {
+   
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(Robot.driveSubsystem); 
   }
@@ -24,13 +26,14 @@ public class DriveManuallyCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   double move = -1 * robotContainer.m_driverController.getLeftY();
 double turn = robotContainer.m_driverController.getRightX();
-  Robot.driveSubsystem.manualDrive(move, turn);
-  
+
+
   @Override
   public void execute() {
 
   // Called once the command ends or is interrupted.
  // RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
+ Robot.driveSubsystem.manualDrive(move, turn);
 System.out.println("Done");
   }
 

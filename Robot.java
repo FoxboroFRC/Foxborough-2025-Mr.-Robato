@@ -6,8 +6,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.RobotContainer;
 import frc.robot.util.OI;
+import com.revrobotics.spark.SparkMax;
+  import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
@@ -15,35 +19,14 @@ import frc.robot.util.OI;
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  public static DriveSubsystem driveSubsystem = new DriveSubsystem();
+  public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static OI oi;
-  private Command autonomousCommand;
+  private Command autonomousCommand = null; //null rn so we can go to telop and test
   SendableChooser<Command> chooser = new SendableChooser<>();
-
-  public class DriveManuallyCommand extends Command {
-  private final RobotContainer robotContainer;
-
-  public DriveManuallyCommand(RobotContainer container) {
-    addRequirements(Robot.driveSubsystem);
-    this.robotContainer = container;
-  }
-
-    @Override
-  public void execute() {
-    double move = -robotContainer.m_driverController.getLeftY();
-    double turn = robotContainer.m_driverController.getRightX();
-    Robot.driveSubsystem.manualDrive(move, turn);
-  }
-
-  @Override
-  public boolean isFinished() {
-    return false;
-  }
 
   @Override
 public void robotInit() {
     oi = new OI();  // This must run before any joystick calls
-  m_robotContainer = new RobotContainer();  
     SmartDashboard.putData("Auto mode", chooser);
     
 }
@@ -54,8 +37,7 @@ public void robotInit() {
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
    */
-  //import com.revrobotics.spark.SparkMax;
-  //import com.revrobotics.spark.SparkLowLevel.MotorType;
+  
 
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
@@ -91,9 +73,9 @@ public void robotInit() {
   public void autonomousInit() {
     // m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     // schedule the autonomous command (example)
-    if (autonomousCommand != null) {
-        autonomousCommand.cancel();
-     }
+    // if (m_autonomousCommand != null) {
+    //     m_autonomousCommand.schedule();
+    // }
   }
 
   /** This function is called periodically during autonomous. */
@@ -106,24 +88,30 @@ public void robotInit() {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    // if (m_autonomousCommand != null) {
-    //     m_autonomousCommand.cancel();
-    // }
+    if (autonomousCommand == null) {
+         autonomousCommand.cancel();
+     }
+    
   }
 
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    
+  }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
+    System.out.println("Hello World!");
     CommandScheduler.getInstance().cancelAll();
   }
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {
+   
+  }
 
   /** This function is called once when the robot is first started up. */
   @Override

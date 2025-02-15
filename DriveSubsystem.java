@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.RoboMap;
 //import edu.wpi.first.wpilibj.SpeedControllerGroup;// Dear future coder, FUCK THIS SHIT fucking piece of fucking dogshit :)
@@ -18,7 +19,7 @@ public class DriveSubsystem extends SubsystemBase
                                             //We need to develop a file for all the port number constants to call as arguments
     //SpeedControllerGroup leftMotorGroup = new SpeedControllerGroup(leftGroup, leftSlave);
            
-    public DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);  
+    public final DifferentialDrive drive = new DifferentialDrive(leftGroup, rightGroup);  
 
     public DriveSubsystem() {
         //point slaves to masters

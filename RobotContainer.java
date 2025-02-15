@@ -22,9 +22,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_driveSubsystem = new DriveSubsystem();
-
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final CommandXboxController m_driverController =
      new CommandXboxController(RoboMap.joystickPort);
@@ -46,12 +43,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_DriveSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_driveSubsystem));
-
+    
+    /*new Trigger(m_ExampleSubsystem::exampleCondition)
+        .onTrue(new ExampleCommand(m_ExampleSubsystem));
+*/
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
    m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
+   //m_driverController.rightStick().whileTrue(new DriveManuallyCommand());
   }
 
   /**
@@ -61,6 +60,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    //return Autos.exampleAuto(m_driveSubsystem);//change this to actual autonums method
+    return null;
   }
 }

@@ -8,6 +8,7 @@ package frc.robot;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.TestDrive;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.RoboMap;
@@ -51,7 +52,8 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     driveSubsystem.setDefaultCommand(
-      new DriveManuallyCommand(driveSubsystem, m_driverController.getLeftY(), m_driverController.getRightX()));
+      new TestDrive(driveSubsystem, m_driverController));
+      
         
     
    //m_driverController.leftStick().whileTrue(new DriveManuallyCommand());

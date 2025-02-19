@@ -34,9 +34,12 @@ public class DriveSubsystem extends SubsystemBase
         //if(turn > 0.5) turn = -1;
         leftGroup.setSafetyEnabled(false);
         rightGroup.setSafetyEnabled(false);
+        System.out.println("Speed is : " + move + " and it is turning: " + turn);
         drive.arcadeDrive(move, turn);
     }
     public void periodic() {
         drive.feed();
     }
+
+    
 }

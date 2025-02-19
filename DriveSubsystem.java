@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.motorcontrol.Spark;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.RoboMap;
@@ -9,10 +11,10 @@ import frc.robot.util.RoboMap;
 
 public class DriveSubsystem extends SubsystemBase
 {
-    public Spark leftGroup = new Spark(RoboMap.leftMasterPort);
-    public Spark leftSlave = new Spark(RoboMap.leftSlavePort);
-    public Spark rightGroup = new Spark(RoboMap.rightMasterPort);
-    public Spark rightSlave = new Spark(RoboMap.rightSlavePort);
+    public SparkMax leftGroup = new SparkMax(RoboMap.leftMasterPort, MotorType.kBrushed);
+    public SparkMax leftSlave = new SparkMax(RoboMap.leftSlavePort, MotorType.kBrushed);
+    public SparkMax rightGroup = new SparkMax(RoboMap.rightMasterPort, MotorType.kBrushed);
+    public SparkMax rightSlave = new SparkMax(RoboMap.rightSlavePort, MotorType.kBrushed);
     
 //private Victor Lgroup = new Victor() ;      //Left side variable of tank
 //private Victor Rgroup= new Victor();        //Right side variable of tank
@@ -23,7 +25,7 @@ public class DriveSubsystem extends SubsystemBase
 
     public DriveSubsystem() {
         //point slaves to masters
-        
+        leftGroup.setInverted(true);
         leftSlave.set(leftGroup.get()); //same thing as .follow
         rightSlave.set(rightGroup.get());
         
@@ -32,13 +34,18 @@ public class DriveSubsystem extends SubsystemBase
     public void manualDrive(double move, double turn){
         //if(move > 0.05) move = 0.05;
         //if(turn > 0.5) turn = -1;
-        leftGroup.setSafetyEnabled(false);
-        rightGroup.setSafetyEnabled(false);
-        System.out.println("Speed is : " + move + " and it is turning: " + turn);
+       
+       
         drive.arcadeDrive(move, turn);
     }
     public void periodic() {
         drive.feed();
+    }
+
+    public void setMotorSpeeds(double left, double right)
+    {
+        leftGroup.setVoltage(left);
+        rightGroup.setVoltage(right);
     }
 
     

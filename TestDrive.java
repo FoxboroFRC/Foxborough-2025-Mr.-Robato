@@ -25,7 +25,7 @@ public class TestDrive extends Command {
 
   @Override
   public void execute() {
-    driveSubsystem.manualDrive(0.5, 0.0); // Drive forward at 50% speed
+    driveSubsystem.manualDrive(.5, 1); // Drive forward at 50% speed
     System.out.println("TestDriveCommand executing: Driving forward");
   }
 

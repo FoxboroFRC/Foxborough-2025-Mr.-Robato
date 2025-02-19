@@ -39,9 +39,10 @@ private final CommandXboxController controller;
   // Called once the command ends or is interrupted.
  //RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
  double move = -1 * controller.getLeftY();
- double turn = controller.getRightX();
+ double turn = controller.getRightTriggerAxis();
+
  
-System.out.println("This is in the execute of driveCommand." + move + " and now turn: " + turn);
+
  driveSubsystem.manualDrive(move, turn);
  
 

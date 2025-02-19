@@ -24,7 +24,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
+  public final CommandXboxController m_driverController =
      new CommandXboxController(RoboMap.joystickPort);
      private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
@@ -52,7 +52,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     driveSubsystem.setDefaultCommand(
-      new TestDrive(driveSubsystem, m_driverController));
+      new DriveManuallyCommand(driveSubsystem, m_driverController));
       
         
     

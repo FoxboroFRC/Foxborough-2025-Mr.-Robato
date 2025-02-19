@@ -113,7 +113,8 @@ public void robotInit() {
   @Override
   public void testPeriodic() {
     //m_robotContainer.m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
-   // System.out.print(m_robotContainer.m_driverController.getLeftX());
+    //System.out.println(robotContainer.m_driverController.getRightTriggerAxis());
+    
    
   }
 

@@ -23,8 +23,9 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  public final CommandXboxController m_driverController =
+  private final CommandXboxController m_driverController =
      new CommandXboxController(RoboMap.joystickPort);
+     private final DriveSubsystem driveSubsystem = new DriveSubsystem();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,7 +50,11 @@ public class RobotContainer {
 */
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-   m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
+    driveSubsystem.setDefaultCommand(
+      new DriveManuallyCommand(driveSubsystem, m_driverController.getLeftY(), m_driverController.getRightX()));
+        
+    
+   //m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
    //m_driverController.rightStick().whileTrue(new DriveManuallyCommand());
   }
 

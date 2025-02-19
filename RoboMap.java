@@ -8,10 +8,10 @@ public class RoboMap {
 //public static final SpeedControllerGroup leftMotorGroup = new Speed 
 //new Spark(RobotMap.Right_GROUP[1]);
 
-public static int leftMasterPort = 6; //left motor ports
-public static int leftSlavePort = 1; 
-public static int rightMasterPort = 5; //right motor ports
-public static int rightSlavePort= 3;
+public static int leftMasterPort = 1; //left motor ports
+public static int leftSlavePort = 6; 
+public static int rightMasterPort = 3; //right motor ports
+public static int rightSlavePort= 5;
 
 public static int joystickPort = 0; //joystick ports
 

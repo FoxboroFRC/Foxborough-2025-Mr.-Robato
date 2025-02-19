@@ -13,26 +13,27 @@ import frc.robot.util.OI;
 import com.revrobotics.spark.SparkMax;
   import com.revrobotics.spark.SparkLowLevel.MotorType;
 
+  import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
-  public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
+  //public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static OI oi;
   private Command autonomousCommand = null; //null rn so we can go to telop and test
   SendableChooser<Command> chooser = new SendableChooser<>();
-
+  private RobotContainer robotContainer;
   @Override
 public void robotInit() {
     oi = new OI();  // This must run before any joystick calls
     SmartDashboard.putData("Auto mode", chooser);
-    
+    robotContainer = new RobotContainer();
 }
 
-  private final RobotContainer m_robotContainer;
-
+ // private final RobotContainer m_robotContainer
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -42,7 +43,8 @@ public void robotInit() {
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    //m_robotContainer = new RobotContainer();
+    enableLiveWindowInTest(true);
   }
 
   /**
@@ -97,21 +99,22 @@ public void robotInit() {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    System.out.println("Telop");
+    
   }
 
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.
-    System.out.println("Hello World!");
-    CommandScheduler.getInstance().cancelAll();
+    //System.out.println("Hello World!");
+    //CommandScheduler.getInstance().cancelAll();
   }
 
   /** This function is called periodically during test mode. */
   @Override
   public void testPeriodic() {
-    m_robotContainer.m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
-   System.out.println("Test");
+    //m_robotContainer.m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
+   // System.out.print(m_robotContainer.m_driverController.getLeftX());
+   
   }
 
   /** This function is called once when the robot is first started up. */

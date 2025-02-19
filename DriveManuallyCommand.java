@@ -13,10 +13,17 @@ import frc.robot.subsystems.DriveSubsystem;
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveManuallyCommand extends Command {
   /** Creates a new DriveManuallyCommand. */
-  public DriveManuallyCommand() {
-   
+  private final DriveSubsystem driveSubsystem;
+  private final double leftStick; //LeftY
+  private final double rightStick; //rightx
+  public DriveManuallyCommand(DriveSubsystem driveSubsystem, double getLeftStick, double getRightStick) {
+   //just added double move and double turn parameters because chatgpt wah
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(Robot.driveSubsystem); 
+    this.driveSubsystem = driveSubsystem;
+    leftStick = getLeftStick;
+    rightStick = getRightStick;
+
+    addRequirements(driveSubsystem); 
   }
 
   // Called when the command is initially scheduled.
@@ -30,19 +37,20 @@ public class DriveManuallyCommand extends Command {
   public void execute() {
 
   // Called once the command ends or is interrupted.
- RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
- double move = -1 * robotContainer.m_driverController.getLeftY();
- double turn = robotContainer.m_driverController.getRightX();
+ //RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
+ double move = -1 * leftStick;
+ double turn = rightStick;
  
- Robot.driveSubsystem.manualDrive(move, turn);
+ driveSubsystem.manualDrive(move, turn);
  
-System.out.println("Done");
+
   }
 
 
   @Override
   public void end(boolean interrupted) {
 
+    driveSubsystem.manualDrive(0, 0);
     
   }
 

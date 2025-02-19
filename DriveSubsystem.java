@@ -36,4 +36,7 @@ public class DriveSubsystem extends SubsystemBase
         rightGroup.setSafetyEnabled(false);
         drive.arcadeDrive(move, turn);
     }
+    public void periodic() {
+        drive.feed();
+    }
 }

@@ -62,6 +62,11 @@ public void robotInit() {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
+
+public Command getAutonomousCommand() {
+    return m_chooser.getSelected();
+  }
+  
   @Override
   public void robotPeriodic() {
     // Runs the Scheduler. This is responsible for polling buttons, adding newly-scheduled
@@ -69,6 +74,7 @@ public void robotInit() {
     // and running subsystem periodic() methods. This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -88,6 +94,11 @@ public void robotInit() {
     // }
     m_autoSelected = m_chooser.getSelected(); //This lets the robot choose from the menu what it wants
     System.out.println("Auto selected: " + m_autoSelected); //This prints out what option it chose from the menu.
+     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+
+    // schedule the autonomous command (example)
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */
@@ -110,9 +121,9 @@ public void robotInit() {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    //if (autonomousCommand == null) {
-      //   autonomousCommand.cancel();
-     //}
+   if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
     
   }
 

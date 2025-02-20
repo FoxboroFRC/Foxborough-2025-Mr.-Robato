@@ -20,6 +20,11 @@ import com.revrobotics.spark.SparkMax;
  * the TimedRobot documentation. If you change the name of this class or the package after creating
  * this project, you must also update the Main.java file in the project.
  */
+  private static final String kDefaultAuto = "Default";
+  private static final String kCustomAuto = "My Auto";
+  private String m_autoSelected;
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+
 public class Robot extends TimedRobot {
   //public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static OI oi;
@@ -44,6 +49,9 @@ public void robotInit() {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     //m_robotContainer = new RobotContainer();
+     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
+    m_chooser.addOption("My Auto", kCustomAuto);
+    SmartDashboard.putData("Auto choices", m_chooser);
     enableLiveWindowInTest(true);
   }
 
@@ -78,11 +86,23 @@ public void robotInit() {
     // if (m_autonomousCommand != null) {
     //     m_autonomousCommand.schedule();
     // }
+    m_autoSelected = m_chooser.getSelected();
+    System.out.println("Auto selected: " + m_autoSelected);
   }
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+    switch (m_autoSelected) {
+      case kCustomAuto:
+        // Put custom auto code here
+        break;
+      case kDefaultAuto:
+      default:
+        // Put default auto code here
+        break;
+  }
 
   @Override
   public void teleopInit() {

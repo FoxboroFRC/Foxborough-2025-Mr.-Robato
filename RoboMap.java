@@ -12,7 +12,7 @@ public static int leftMasterPort = 1; //left motor ports
 public static int leftSlavePort = 6; 
 public static int rightMasterPort = 5; //right motor ports
 public static int rightSlavePort= 3;
-public static int coralLauncher = 2;
+public static int coralLauncher = 2; //coral launcher motor port
 public static int joystickPort = 0; //joystick ports
 
 

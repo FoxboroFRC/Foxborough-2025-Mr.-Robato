@@ -20,10 +20,10 @@ import com.revrobotics.spark.SparkMax;
  * the TimedRobot documentation. If you change the name of this class or the package after creating
  * this project, you must also update the Main.java file in the project.
  */
-  private static final String kDefaultAuto = "Default";
-  private static final String kCustomAuto = "My Auto";
+  private static final String kDefaultAuto = "Default"; //These 2 lines create variables that allow the robot to choose between 2 tasks
+  private static final String kCustomAuto = "My Auto"; //for autonomous mode.
   private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();
+  private final SendableChooser<String> m_chooser = new SendableChooser<>();  //This is where we pick one of the tasks (the menu).
 
 public class Robot extends TimedRobot {
   //public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
@@ -51,7 +51,7 @@ public void robotInit() {
     //m_robotContainer = new RobotContainer();
      m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+    SmartDashboard.putData("Auto choices", m_chooser); //Smart dashboard is where all the tasks are (the menu). This code sets up the menu.
     enableLiveWindowInTest(true);
   }
 
@@ -86,16 +86,16 @@ public void robotInit() {
     // if (m_autonomousCommand != null) {
     //     m_autonomousCommand.schedule();
     // }
-    m_autoSelected = m_chooser.getSelected();
-    System.out.println("Auto selected: " + m_autoSelected);
+    m_autoSelected = m_chooser.getSelected(); //This lets the robot choose from the menu what it wants
+    System.out.println("Auto selected: " + m_autoSelected); //This prints out what option it chose from the menu.
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
 
-    switch (m_autoSelected) {
-      case kCustomAuto:
+    switch (m_autoSelected) {   //While the robot is doing its task, it checks which task
+      case kCustomAuto:         //was picked and does the right thing based on that.
         // Put custom auto code here
         break;
       case kDefaultAuto:

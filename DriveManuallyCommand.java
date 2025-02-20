@@ -38,8 +38,8 @@ private final CommandXboxController controller;
 
   // Called once the command ends or is interrupted.
  //RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
- double move = -1 * controller.getLeftY();
- double turn = controller.getRightTriggerAxis();
+ double move = -1 * controller.getLeftY();  // This ensures that it goes forward and backwards
+ double turn = controller.getRightTriggerAxis(); // This gets the right stick Y
 
  
 

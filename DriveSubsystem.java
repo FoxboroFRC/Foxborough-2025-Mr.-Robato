@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 
@@ -37,17 +36,18 @@ public class DriveSubsystem extends SubsystemBase
         //if(turn > 0.5) turn = -1;
        
        
-        drive.tankDrive(left, right);
+        drive.tankDrive(left, right, true);
     }
     public void periodic() {
         drive.feed();
     }
 
-    public void setMotorSpeeds(double left, double right)
+    public void stop()
     {
-        leftGroup.setVoltage(left);
-        rightGroup.setVoltage(right);
+        drive.tankDrive(0,0);
     }
+
+    
 
     
     

@@ -1,12 +1,9 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.drive.DifferentialDrive;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.util.RoboMap;
 
 public class CoralSubsystem extends SubsystemBase{
@@ -20,7 +17,7 @@ this.controller = controller;
 
 public void coralLaunch()
 {
-    coralLauncher.setVoltage(1);
+    coralLauncher.setVoltage(12);
 }
 
 public boolean coralLaunchButtonPressed() {

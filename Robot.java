@@ -5,37 +5,36 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.DriveManuallyCommand;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.RobotContainer;
-import frc.robot.util.OI;
-import com.revrobotics.spark.SparkMax;
-  import com.revrobotics.spark.SparkLowLevel.MotorType;
 
-  import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import frc.robot.util.OI;
+
+
+
 
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
  * this project, you must also update the Main.java file in the project.
  */
-  private static final String kDefaultAuto = "Default"; //These 2 lines create variables that allow the robot to choose between 2 tasks
-  private static final String kCustomAuto = "My Auto"; //for autonomous mode.
-  private String m_autoSelected;
-  private final SendableChooser<String> m_chooser = new SendableChooser<>();  //This is where we pick one of the tasks (the menu).
-
+  
 public class Robot extends TimedRobot {
   //public static final DriveSubsystem driveSubsystem = new DriveSubsystem();
   public static OI oi;
-  private Command autonomousCommand = null; //null rn so we can go to telop and test
-  SendableChooser<Command> chooser = new SendableChooser<>();
+  private Command autonomousCommand; 
+  //SendableChooser<Command> chooser = new SendableChooser<>();
   private RobotContainer robotContainer;
+  private static final String kDefaultAuto = "Simple"; //These 2 lines create variables that allow the robot to choose between 2 tasks
+  private static final String kCustomAuto = "Complex"; //for autonomous mode.
+  private String autoSelected;
+  private final SendableChooser<String> chooser = new SendableChooser<>();  //This is where we pick one of the tasks (the menu).
+  
+
+
   @Override
 public void robotInit() {
     oi = new OI();  // This must run before any joystick calls
     SmartDashboard.putData("Auto mode", chooser);
-    robotContainer = new RobotContainer();
+    //robotContainer = new RobotContainer();
 }
 
  // private final RobotContainer m_robotContainer
@@ -48,10 +47,12 @@ public void robotInit() {
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    //m_robotContainer = new RobotContainer();
-     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", m_chooser); //Smart dashboard is where all the tasks are (the menu). This code sets up the menu.
+    robotContainer = new RobotContainer();
+     chooser.setDefaultOption("Simple Auto", kDefaultAuto);
+    chooser.addOption("Complex Auto", kCustomAuto);
+    SmartDashboard.putData("Auto choices", chooser);
+    //Smart dashboard is where all the tasks are (the menu). This code sets up the menu.
+    SmartDashboard.putData("Auto Command", robotContainer.getAutonomousCommand());
     enableLiveWindowInTest(true);
   }
 
@@ -63,9 +64,7 @@ public void robotInit() {
    * SmartDashboard integrated updating.
    */
 
-public Command getAutonomousCommand() {
-    return m_chooser.getSelected();
-  }
+
   
   @Override
   public void robotPeriodic() {
@@ -92,20 +91,21 @@ public Command getAutonomousCommand() {
     // if (m_autonomousCommand != null) {
     //     m_autonomousCommand.schedule();
     // }
-    m_autoSelected = m_chooser.getSelected(); //This lets the robot choose from the menu what it wants
-    System.out.println("Auto selected: " + m_autoSelected); //This prints out what option it chose from the menu.
-     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    autoSelected = chooser.getSelected(); //This lets the robot choose from the menu what it wants
+    System.out.println("Auto selected: " + autoSelected); //This prints out what option it chose from the menu.
+     autonomousCommand = robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
+    if (autonomousCommand != null) {
+      autonomousCommand.schedule();
+    }
   }
 
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
 
-    switch (m_autoSelected) {   //While the robot is doing its task, it checks which task
+    switch (autoSelected) {   //While the robot is doing its task, it checks which task
       case kCustomAuto:         //was picked and does the right thing based on that.
         // Put custom auto code here
         break;
@@ -113,6 +113,7 @@ public Command getAutonomousCommand() {
       default:
         // Put default auto code here
         break;
+    }
   }
 
   @Override
@@ -121,8 +122,8 @@ public Command getAutonomousCommand() {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-   if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
+   if (autonomousCommand != null) {
+      autonomousCommand.cancel();
     }
     
   }
@@ -158,3 +159,4 @@ public Command getAutonomousCommand() {
   public void simulationPeriodic() {}
 }
 
+  

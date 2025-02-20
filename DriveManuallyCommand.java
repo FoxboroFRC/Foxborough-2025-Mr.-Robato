@@ -9,14 +9,15 @@ import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj.XboxController;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
 public class DriveManuallyCommand extends Command {
   /** Creates a new DriveManuallyCommand. */
   private final DriveSubsystem driveSubsystem;
-private final CommandXboxController controller;
+private final XboxController controller;
 
-  public DriveManuallyCommand(DriveSubsystem driveSubsystem, CommandXboxController controller) {
+  public DriveManuallyCommand(DriveSubsystem driveSubsystem, XboxController controller) {
    //just added double move and double turn parameters because chatgpt wah
     // Use addRequirements() here to declare subsystem dependencies.
     this.driveSubsystem = driveSubsystem;
@@ -38,12 +39,12 @@ private final CommandXboxController controller;
 
   // Called once the command ends or is interrupted.
  //RobotContainer robotContainer = new RobotContainer(); // Ensure this is initialized properly
- double move = -1 * controller.getLeftY();  // This ensures that it goes forward and backwards
- double turn = controller.getRightTriggerAxis(); // This gets the right stick Y
+ double left = -1 * controller.getLeftY() * controller.getLeftY();
+ double right = -1 * controller.getRightTriggerAxis() * controller.getRightTriggerAxis(); //rightTriggerAxis is rightY and leftTriggerAxis is rightX
 
  
 
- driveSubsystem.manualDrive(move, turn);
+ driveSubsystem.manualDrive(left, right);
  
 
   }

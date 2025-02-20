@@ -16,6 +16,7 @@ public class DriveSubsystem extends SubsystemBase
     public SparkMax rightGroup = new SparkMax(RoboMap.rightMasterPort, MotorType.kBrushed);
     public SparkMax rightSlave = new SparkMax(RoboMap.rightSlavePort, MotorType.kBrushed);
     
+    
 //private Victor Lgroup = new Victor() ;      //Left side variable of tank
 //private Victor Rgroup= new Victor();        //Right side variable of tank
                                             //We need to develop a file for all the port number constants to call as arguments
@@ -25,18 +26,18 @@ public class DriveSubsystem extends SubsystemBase
 
     public DriveSubsystem() {
         //point slaves to masters
-        leftGroup.setInverted(true);
+        
         leftSlave.set(leftGroup.get()); //same thing as .follow
         rightSlave.set(rightGroup.get());
         
     }
 
-    public void manualDrive(double move, double turn){
+    public void manualDrive(double left, double right){
         //if(move > 0.05) move = 0.05;
         //if(turn > 0.5) turn = -1;
        
        
-        drive.arcadeDrive(move, turn);
+        drive.tankDrive(left, right);
     }
     public void periodic() {
         drive.feed();
@@ -48,5 +49,6 @@ public class DriveSubsystem extends SubsystemBase
         rightGroup.setVoltage(right);
     }
 
+    
     
 }

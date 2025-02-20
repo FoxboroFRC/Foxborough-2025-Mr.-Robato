@@ -106,7 +106,7 @@ public void robotInit() {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     //System.out.println("Hello World!");
-    //CommandScheduler.getInstance().cancelAll();
+    CommandScheduler.getInstance().cancelAll();
   }
 
   /** This function is called periodically during test mode. */

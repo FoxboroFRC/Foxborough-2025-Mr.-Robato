@@ -7,14 +7,17 @@ package frc.robot;
 
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
+import frc.robot.commands.CoralLaunch;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TestDrive;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.util.RoboMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.XboxController;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,13 +27,15 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  public final CommandXboxController m_driverController =
-     new CommandXboxController(RoboMap.joystickPort);
+  public final XboxController driverController =
+     new XboxController(RoboMap.joystickPort);
      private final DriveSubsystem driveSubsystem = new DriveSubsystem();
+     private final CoralSubsystem coralSubsystem = new CoralSubsystem(driverController);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
+    
     configureBindings();
   }
 
@@ -52,7 +57,9 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     driveSubsystem.setDefaultCommand(
-      new DriveManuallyCommand(driveSubsystem, m_driverController));
+      new DriveManuallyCommand(driveSubsystem, driverController)); //Always active
+
+      new Trigger(coralSubsystem::coralLaunchButtonPressed).onTrue(new CoralLaunch(coralSubsystem));
       
         
     

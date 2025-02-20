@@ -25,6 +25,25 @@ import edu.wpi.first.wpilibj.XboxController;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
+// A simple auto routine that drives forward a specified distance, and then stops.
+  private final Command m_simpleAuto =
+      new DriveDistance(
+          AutoConstants.kAutoDriveDistanceInches, AutoConstants.kAutoDriveSpeed, m_robotDrive);
+
+  // A complex auto routine that, for example, could drive forward, drop a hatch, and then drive backward.
+  private final Command m_complexAuto = new ComplexAuto(m_robotDrive, m_hatchSubsystem);
+
+  SendableChooser<Command> m_chooser = new SendableChooser<>();  // This code creates a menu where you can choose which trick the robot does
+
+// Add commands to the autonomous command chooser
+    m_chooser.setDefaultOption("Simple Auto", m_simpleAuto);
+    m_chooser.addOption("Complex Auto", m_complexAuto);
+
+// Put the chooser on the dashboard
+SmartDashboard.putData(m_chooser);
+
+
 public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final XboxController driverController =

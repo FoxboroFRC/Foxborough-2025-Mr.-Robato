@@ -5,8 +5,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.apriltag.AprilTagDetection;
+import edu.wpi.first.apriltag.AprilTagDetector;
+
+
 
 import frc.robot.util.OI;
+
+
 
 
 
@@ -54,6 +60,10 @@ public void robotInit() {
     //Smart dashboard is where all the tasks are (the menu). This code sets up the menu.
     SmartDashboard.putData("Auto Command", robotContainer.getAutonomousCommand());
     enableLiveWindowInTest(true);
+
+
+
+    //start camera 
   }
 
   /**

@@ -41,12 +41,70 @@ private final XboxController controller;
   public void execute() {
 
   
- double left =   controller.getLeftY();
- double right = -1 * controller.getRightTriggerAxis(); 
+ double leftRaw = controller.getLeftY();
+ double rightInverted = -1 * controller.getRightTriggerAxis(); 
+ double leftAdjusted;
+ double rightAdjusted;
  //rightTriggerAxis is rightY and leftTriggerAxis is rightX
- driveSubsystem.manualDrive(left, right);
  
 
+ //left vv
+if (leftRaw >= 0)
+{
+  if (leftRaw < 0.05) {
+    leftAdjusted = 0;
+  }
+  else if (leftRaw >= 0.05 && leftRaw <= 1) {
+   leftAdjusted = leftRaw/1.5 + .15;
+  }
+  else {
+    leftAdjusted = 0.9;
+  }
+  System.out.println("hi");
+}
+else
+{
+  
+  if (leftRaw > -0.05) {
+    leftAdjusted = 0;
+  }
+  else if (leftRaw <= -0.05 && leftRaw >= -1) {
+   leftAdjusted = leftRaw/1.5 - .15;
+  }
+  else {
+    leftAdjusted = -0.9;
+  }
+}
+
+//right vv
+if (rightInverted >= 0)
+{
+  if (rightInverted < 0.05) {
+    rightAdjusted = 0;
+  }
+  else if (rightInverted >= 0.05 && rightInverted <= 1) {
+   rightAdjusted = rightInverted/1.5 + .15;
+  }
+  else {
+    rightAdjusted = 0.9;
+  }
+}
+else
+{
+  
+  if (rightInverted > -0.05) {
+    rightAdjusted = 0;
+  }
+  else if (rightInverted <= -0.05 && rightInverted >= -1) {
+   rightAdjusted = rightInverted/1.5 - .15;
+  }
+  else {
+    rightAdjusted = -0.9;
+  }
+}
+ 
+
+ driveSubsystem.manualDrive(leftAdjusted, rightAdjusted);
   }
 
 // Called once the command ends or is interrupted.

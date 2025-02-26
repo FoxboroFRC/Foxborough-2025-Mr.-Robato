@@ -17,7 +17,7 @@ this.controller = controller;
 
 public void coralLaunch()
 {
-    coralLauncher.setVoltage(12);
+    coralLauncher.setVoltage(3);
 }
 
 public boolean coralLaunchButtonPressed() {

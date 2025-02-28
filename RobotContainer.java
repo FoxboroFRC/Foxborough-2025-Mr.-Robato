@@ -8,6 +8,7 @@ package frc.robot;
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.CoralLaunch;
+import frc.robot.commands.CoralLaunchWeak;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.TestDrive;
 import frc.robot.commands.autoDrive;
@@ -95,6 +96,8 @@ public class RobotContainer {
 
       //print the distance for now test panic
       new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController));
+
+      new Trigger(coralSubsystem::coralLaunchButtonPressedWeak).onTrue(new CoralLaunchWeak(coralSubsystem));
       
         
   }

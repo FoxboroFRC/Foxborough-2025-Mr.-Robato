@@ -4,13 +4,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CoralSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 
-public class CoralLaunch extends Command
+public class CoralLaunchWeak extends Command
 {
       
     private final CoralSubsystem coralSubsystem;
     private final Timer timer = new Timer();
 
-    public CoralLaunch(CoralSubsystem coralSubsystem)
+    public CoralLaunchWeak(CoralSubsystem coralSubsystem)
     {
         
         this.coralSubsystem = coralSubsystem;
@@ -25,7 +25,7 @@ public class CoralLaunch extends Command
     @Override
     public void execute() {
         
-        coralSubsystem.coralLaunch();
+        coralSubsystem.coralLaunchWeak();
     }
     
   @Override
@@ -38,7 +38,7 @@ public class CoralLaunch extends Command
 
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(0.05);
+    return timer.hasElapsed(0.1);
   }
 }
 

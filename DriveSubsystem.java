@@ -48,11 +48,6 @@ public class DriveSubsystem extends SubsystemBase
     public void manualDrive(double left, double right){
         //if(move > 0.05) move = 0.05;
         //if(turn > 0.5) turn = -1;
-       
-        if(left > 0.5)
-        {
-            left = 1;
-        }
         drive.tankDrive(left, right);
     }
     public void periodic() {

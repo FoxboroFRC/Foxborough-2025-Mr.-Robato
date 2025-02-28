@@ -54,13 +54,13 @@ if (leftRaw >= 0)
   if (leftRaw < 0.05) {
     leftAdjusted = 0;
   }
-  else if (leftRaw >= 0.05 && leftRaw <= 1) {
+  else if (leftRaw >= 0.05 && leftRaw <= .95) {
    leftAdjusted = leftRaw/1.5 + .15;
   }
   else {
-    leftAdjusted = 0.9;
+    leftAdjusted = 1;
   }
-  System.out.println("hi");
+  
 }
 else
 {
@@ -68,11 +68,11 @@ else
   if (leftRaw > -0.05) {
     leftAdjusted = 0;
   }
-  else if (leftRaw <= -0.05 && leftRaw >= -1) {
+  else if (leftRaw <= -0.05 && leftRaw >= -.95) {
    leftAdjusted = leftRaw/1.5 - .15;
   }
   else {
-    leftAdjusted = -0.9;
+    leftAdjusted = -1;
   }
 }
 
@@ -82,11 +82,11 @@ if (rightInverted >= 0)
   if (rightInverted < 0.05) {
     rightAdjusted = 0;
   }
-  else if (rightInverted >= 0.05 && rightInverted <= 1) {
+  else if (rightInverted >= 0.05 && rightInverted <= .95) {
    rightAdjusted = rightInverted/1.5 + .15;
   }
   else {
-    rightAdjusted = 0.9;
+    rightAdjusted = 1;
   }
 }
 else
@@ -95,11 +95,11 @@ else
   if (rightInverted > -0.05) {
     rightAdjusted = 0;
   }
-  else if (rightInverted <= -0.05 && rightInverted >= -1) {
+  else if (rightInverted <= -0.05 && rightInverted >= -0.95) {
    rightAdjusted = rightInverted/1.5 - .15;
   }
   else {
-    rightAdjusted = -0.9;
+    rightAdjusted = -1;
   }
 }
  

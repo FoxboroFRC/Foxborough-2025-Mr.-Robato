@@ -1,6 +1,8 @@
 
 package frc.robot.commands;
 
+import com.studica.frc.AHRS;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,17 +17,21 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 public class SensorTest extends Command {
   private final DriveSubsystem driveSubsystem;
   private final XboxController controller;
-  public AnalogInput ultraSonicSensor = new AnalogInput(RoboMap.ultraSonicSensorPort);
+  private AnalogInput ultraSonicSensor;
+  private AHRS navX;
 
-  public SensorTest(DriveSubsystem driveSubsystem, XboxController controller) {
+  public SensorTest(DriveSubsystem driveSubsystem, XboxController controller, AnalogInput ultraSonicSensor, AHRS navX) {
     this.driveSubsystem = driveSubsystem;
     this.controller = controller;
+    this.ultraSonicSensor = ultraSonicSensor;
+    this.navX = navX;
     addRequirements(driveSubsystem);
   }
 
   @Override
   public void initialize() {
     //reset sensor
+    navX.zeroYaw();
 
     
   }
@@ -34,13 +40,14 @@ public class SensorTest extends Command {
   public void execute() {
    
 
-double voltage, cm;
+double voltage;
 
    voltage = ultraSonicSensor.getVoltage();
+   System.out.println("Distance: " + voltage);
+   System.out.println("Yaw: " + navX.getYaw());
+   
 
-   cm = voltage*102.4;
 
-   System.out.println(voltage);
 }
 
 
@@ -58,4 +65,5 @@ double voltage, cm;
     
   }
 }
+
 

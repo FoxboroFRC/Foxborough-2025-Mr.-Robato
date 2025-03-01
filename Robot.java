@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
   private static final String kDefaultAuto = "Simple"; //These 2 lines create variables that allow the robot to choose between 2 tasks
   private static final String kCustomAuto = "Complex"; //for autonomous mode.
   private String autoSelected;
-  private final SendableChooser<String> chooser = new SendableChooser<>();  //This is where we pick one of the tasks (the menu).
+  public static final SendableChooser<String> chooser = new SendableChooser<>();  //This is where we pick one of the tasks (the menu).
   
 
 

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import frc.robot.commands.AutoDropOff;
 //command imports
 import frc.robot.commands.Autos;
 import frc.robot.commands.DriveManuallyCommand;
@@ -23,9 +24,15 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.XboxController;
+
+import com.studica.frc.AHRS;
+import com.studica.frc.AHRS.NavXComType;
+
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
@@ -44,9 +51,14 @@ public class RobotContainer {
      new XboxController(RoboMap.joystickPort);
      private final DriveSubsystem driveSubsystem = new DriveSubsystem(driverController);
      private final CoralSubsystem coralSubsystem = new CoralSubsystem(driverController);
+     private AnalogInput ultraSonicSensor = new AnalogInput(RoboMap.ultraSonicSensorPort);
+     public final AHRS navX = new AHRS(NavXComType.kMXP_SPI);
+    
+     //simple is back off line. Complex is drop off
      public final autoDrive simpleAuto =
       new autoDrive(driveSubsystem);
-
+      public final AutoDropOff complex = new AutoDropOff(driveSubsystem, coralSubsystem, ultraSonicSensor, navX);
+      
       public final CommandXboxController test = null;
       /*controller is not the same as xbox controller
       *please cross reference for right commands and values
@@ -61,7 +73,15 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return simpleAuto;
+    if (Robot.chooser.equals("Simple"))
+    {
+      return simpleAuto;
+    }
+    else //(Robot.chooser.equals("Complex")
+    {
+      return complex;
+    }
+    
  }
 
 
@@ -95,7 +115,7 @@ public class RobotContainer {
       new Trigger(coralSubsystem::coralLaunchButtonPressed).onTrue(new CoralLaunch(coralSubsystem));
 
       //print the distance for now test panic
-      new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController));
+      //new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController));
 
       new Trigger(coralSubsystem::coralLaunchButtonPressedWeak).onTrue(new CoralLaunchWeak(coralSubsystem));
       

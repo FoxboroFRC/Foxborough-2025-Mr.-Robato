@@ -55,7 +55,7 @@ if (leftRaw >= 0)
     leftAdjusted = 0;
   }
   else if (leftRaw >= 0.05 && leftRaw <= .95) {
-   leftAdjusted = leftRaw/1.5 + .15;
+   leftAdjusted = leftRaw/1.3 + .25;
   }
   else {
     leftAdjusted = 1;
@@ -69,7 +69,7 @@ else
     leftAdjusted = 0;
   }
   else if (leftRaw <= -0.05 && leftRaw >= -.95) {
-   leftAdjusted = leftRaw/1.5 - .15;
+   leftAdjusted = leftRaw/1.3 - .25;
   }
   else {
     leftAdjusted = -1;
@@ -83,7 +83,7 @@ if (rightInverted >= 0)
     rightAdjusted = 0;
   }
   else if (rightInverted >= 0.05 && rightInverted <= .95) {
-   rightAdjusted = rightInverted/1.5 + .15;
+   rightAdjusted = rightInverted/1.3 + .25;
   }
   else {
     rightAdjusted = 1;
@@ -96,7 +96,7 @@ else
     rightAdjusted = 0;
   }
   else if (rightInverted <= -0.05 && rightInverted >= -0.95) {
-   rightAdjusted = rightInverted/1.5 - .15;
+   rightAdjusted = rightInverted/1.3 - .25;
   }
   else {
     rightAdjusted = -1;

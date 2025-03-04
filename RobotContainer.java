@@ -4,21 +4,32 @@
 
 package frc.robot;
 
-import frc.robot.commands.AutoDropOff;
+//auto commands
+import frc.robot.commands.AutoDropOffStraight;
+import frc.robot.commands.AutoDropOffTurnLeft;
+import frc.robot.commands.AutoDropOffTurnRight;
 //command imports
 import frc.robot.commands.Autos;
+import frc.robot.commands.Climb;
 import frc.robot.commands.DriveManuallyCommand;
 import frc.robot.commands.CoralLaunch;
+import frc.robot.commands.CoralLaunchAlign;
 import frc.robot.commands.CoralLaunchWeak;
 import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.TestDrive;
 import frc.robot.commands.autoDrive;
-import frc.robot.commands.SensorTest;
+
+
+//test commands
+import frc.robot.commands.TestCommands.AutoTestPrints;
+import frc.robot.commands.TestCommands.TestDrive;
+import frc.robot.commands.TestCommands.SensorTest;
+
 //subsystems
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.CoralSubsystem;
 import frc.robot.subsystems.DriveSubsystem;
 
+//wpilib stuff
 import frc.robot.util.RoboMap;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -27,13 +38,19 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.XboxController;
 
+//gyro
 import com.studica.frc.AHRS;
 import com.studica.frc.AHRS.NavXComType;
 
+//pidcontroller
+import com.revrobotics.spark.SparkClosedLoopController;
+import com.revrobotics.spark.SparkBase.ControlType;
+
+//camera
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 
-
+//dashboard
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
@@ -49,15 +66,32 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   public final XboxController driverController =
      new XboxController(RoboMap.joystickPort);
+
+     //subsystems
      private final DriveSubsystem driveSubsystem = new DriveSubsystem(driverController);
      private final CoralSubsystem coralSubsystem = new CoralSubsystem(driverController);
+
+     //sensors
      private AnalogInput ultraSonicSensor = new AnalogInput(RoboMap.ultraSonicSensorPort);
-     public final AHRS navX = new AHRS(NavXComType.kMXP_SPI);
-    
+     public final static AHRS navX = new AHRS(NavXComType.kMXP_SPI);
+
+    //pid controllers
+    private final SparkClosedLoopController pidControllerDriveTrainLeft = driveSubsystem.pidControllerLeftGroup;
+    private final SparkClosedLoopController pidControllerDriveTrainRight = driveSubsystem.pidControllerLeftGroup;
+
      //simple is back off line. Complex is drop off
-     public final autoDrive simpleAuto =
+     private final autoDrive simpleAuto =
       new autoDrive(driveSubsystem);
-      public final AutoDropOff complex = new AutoDropOff(driveSubsystem, coralSubsystem, ultraSonicSensor, navX);
+
+      private final AutoDropOffStraight autoDropStraight = new AutoDropOffStraight(driveSubsystem, coralSubsystem, 
+      ultraSonicSensor, navX, pidControllerDriveTrainLeft, pidControllerDriveTrainRight);
+
+      private final AutoDropOffTurnLeft autoDropTLeft = new AutoDropOffTurnLeft(driveSubsystem, coralSubsystem, 
+      ultraSonicSensor, navX);
+
+      private final AutoDropOffTurnRight autoDropTRight = new AutoDropOffTurnRight(driveSubsystem, coralSubsystem, 
+      ultraSonicSensor, navX);
+
       
       public final CommandXboxController test = null;
       /*controller is not the same as xbox controller
@@ -73,15 +107,28 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    if (Robot.chooser.equals("Simple"))
+
+    String chosen =Robot.chooser.getSelected();
+    if (chosen.equals("Simple"))
     {
       return simpleAuto;
     }
-    else //(Robot.chooser.equals("Complex")
+    else if (chosen.equals("AutoStraight"))
     {
-      return complex;
+      return autoDropStraight;
     }
-    
+    else if (chosen.equals("AutoTurnRight"))
+    {
+      return autoDropTRight;
+    }
+    else if (chosen.equals("AutoTurnLeft"))
+    {
+      return autoDropTLeft;
+    }
+    else
+    {
+      return new AutoTestPrints(driveSubsystem, chosen);
+    }
  }
 
 
@@ -112,13 +159,27 @@ public class RobotContainer {
     driveSubsystem.setDefaultCommand(
       new DriveManuallyCommand(driveSubsystem, driverController)); //Always active
 
+      //coral launch on Xpress
       new Trigger(coralSubsystem::coralLaunchButtonPressed).onTrue(new CoralLaunch(coralSubsystem));
 
       //print the distance for now test panic
-      //new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController));
+      //y press
+      new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController, ultraSonicSensor, navX));
+     
+      //A press
+      new Trigger(coralSubsystem::coralLaunchButtonPressedAlign).onTrue(new CoralLaunchAlign(coralSubsystem));
 
+      //b presss
       new Trigger(coralSubsystem::coralLaunchButtonPressedWeak).onTrue(new CoralLaunchWeak(coralSubsystem));
+
+      //upArro press
+      new Trigger(driveSubsystem::climbButtonPressed).onTrue(new Climb(driveSubsystem, driverController));
       
+
+      //getA is actuall X
+      //getB is actually y
+      //getY is actually A
+      //getX is actually B
         
   }
    //m_driverController.leftStick().whileTrue(new DriveManuallyCommand());

@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.apriltag.AprilTagDetection;
 import edu.wpi.first.apriltag.AprilTagDetector;
+import edu.wpi.first.cameraserver.CameraServer;
 
 
 
@@ -29,9 +30,15 @@ public class Robot extends TimedRobot {
   private Command autonomousCommand; 
   //SendableChooser<Command> chooser = new SendableChooser<>();
   private RobotContainer robotContainer;
-  private static final String kDefaultAuto = "Simple"; //These 2 lines create variables that allow the robot to choose between 2 tasks
-  private static final String kCustomAuto = "Complex"; //for autonomous mode.
-  private String autoSelected;
+  private static final String SimpleAuto = "Simple"; //These 2 lines create variables that allow the robot to choose between 2 tasks
+  private static final String AutoStraight = "AutoStraight"; //for autonomous mode.
+  private static final String AutoTRight = "AutoTurnRight";
+  private static final String AutoTLeft = "AutoTurnLeft";
+
+  
+  
+
+  public static String autoSelected;
   public static final SendableChooser<String> chooser = new SendableChooser<>();  //This is where we pick one of the tasks (the menu).
   
 
@@ -40,7 +47,13 @@ public class Robot extends TimedRobot {
 public void robotInit() {
     oi = new OI();  // This must run before any joystick calls
     SmartDashboard.putData("Auto mode", chooser);
-    //robotContainer = new RobotContainer();
+    robotContainer = new RobotContainer();
+    chooser.setDefaultOption("Simple Auto", SimpleAuto);
+   chooser.addOption("Straight Auto", AutoStraight);
+   chooser.addOption("Turn Right Auto", AutoTRight);
+   chooser.addOption("Turn Left Auto", AutoTLeft);
+   SmartDashboard.putData("Auto choices", chooser);
+   SmartDashboard.putData("Auto Command", robotContainer.getAutonomousCommand());
 }
 
  // private final RobotContainer m_robotContainer
@@ -53,13 +66,11 @@ public void robotInit() {
   public Robot() {
     // Instantiate our RobotContainer. This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    robotContainer = new RobotContainer();
-     chooser.setDefaultOption("Simple Auto", kDefaultAuto);
-    chooser.addOption("Complex Auto", kCustomAuto);
-    SmartDashboard.putData("Auto choices", chooser);
+   
     //Smart dashboard is where all the tasks are (the menu). This code sets up the menu.
-    SmartDashboard.putData("Auto Command", robotContainer.getAutonomousCommand());
+    
     enableLiveWindowInTest(true);
+    CameraServer.startAutomaticCapture();
 
 
 
@@ -115,15 +126,7 @@ public void robotInit() {
   @Override
   public void autonomousPeriodic() {
 
-    switch (autoSelected) {   //While the robot is doing its task, it checks which task
-      case kCustomAuto:         //was picked and does the right thing based on that.
-        // Put custom auto code here
-        break;
-      case kDefaultAuto:
-      default:
-        // Put default auto code here
-        break;
-    }
+  
   }
 
   @Override

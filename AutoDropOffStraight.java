@@ -77,8 +77,9 @@ public class AutoDropOffStraight extends Command {
     
 
     //slow down as it approaches the reef
-   while (ultraSonicSensor.getVoltage() < 1.75 && ultraSonicSensor.getVoltage() > 0.75 && finalSpeedPer > 0)
+   while (timer.getVoltage() < 1.75 && timer.getVoltage() > 0.75 && finalSpeedPer > 0)
     {
+
       finalSpeedPer -= 0.001;
       driveSubsystem.manualDrive(-finalSpeedPer, finalSpeedPer);
    }

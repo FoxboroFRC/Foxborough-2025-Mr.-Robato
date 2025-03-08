@@ -7,7 +7,9 @@ import com.studica.frc.AHRS;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
@@ -30,14 +32,15 @@ public class AutoDropOffStraight extends Command {
     private SparkClosedLoopController pidControllerRight;
     
   
-  private AnalogInput ultraSonicSensor; //distance thing
+  //private AnalogInput ultraSonicSensor; //distance thing
+  private Ultrasonic ultraSonicSensor;
   private final AHRS navX; //gyro and acceleration
   private boolean collision; //make it stop immediately if it detects collision so it doesnt keep going.
 
    boolean scored = false;
 
   public AutoDropOffStraight(DriveSubsystem driveSubsystem, CoralSubsystem coralSubsystem, 
-  AnalogInput ultraSonicSensor, AHRS navX, 
+  Ultrasonic ultraSonicSensor, AHRS navX, 
   SparkClosedLoopController pidControllerLeft, SparkClosedLoopController pidControllerRight) {
     this.driveSubsystem = driveSubsystem;
     this.coralSubsystem = coralSubsystem;
@@ -65,9 +68,11 @@ public class AutoDropOffStraight extends Command {
   public void execute() {
     
 
-driveSubsystem.manualDrive(-0.5, 0.5);
+//driveSubsystem.manualDrive(-0.5, 0.5);
 
-if (ultraSonicSensor.getVoltage() < 0.6)
+SmartDashboard.putNumber("Ultrasonic (Inches)", ultraSonicSensor.getRangeInches());
+
+if (ultraSonicSensor.getRangeInches() < 5.5)
 {
   new WaitCommand(0.5);
   coralSubsystem.coralLaunchAuto();
@@ -110,7 +115,7 @@ if (ultraSonicSensor.getVoltage() < 0.6)
 
   @Override
   public boolean isFinished() {
-    return ultraSonicSensor.getVoltage() < 0.5;
+    return ultraSonicSensor.getRangeInches() < 5.55;
   }
 }
 

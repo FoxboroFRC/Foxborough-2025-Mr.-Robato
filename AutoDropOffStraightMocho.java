@@ -20,8 +20,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 
-public class AutoDropOffStraight extends Command {
-    
+public class AutoDropOffStraightMocho extends Command {
+    /*
 
     private final DriveSubsystem driveSubsystem;
     private final CoralSubsystem coralSubsystem;
@@ -91,7 +91,7 @@ if (ultraSonicSensor.getVoltage() < 0.6)
 
    */
 
-    
+    /*
     
 
   }
@@ -111,6 +111,6 @@ if (ultraSonicSensor.getVoltage() < 0.6)
   @Override
   public boolean isFinished() {
     return ultraSonicSensor.getVoltage() < 0.5;
-  }
+  }*/
 }
 

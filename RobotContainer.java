@@ -36,6 +36,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Ultrasonic;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 //gyro
@@ -72,7 +74,8 @@ public class RobotContainer {
      private final CoralSubsystem coralSubsystem = new CoralSubsystem(driverController);
 
      //sensors
-     private AnalogInput ultraSonicSensor = new AnalogInput(RoboMap.ultraSonicSensorPort);
+     //private AnalogInput ultraSonicSensor = new AnalogInput(RoboMap.ultraSonicSensorPort);
+     private Ultrasonic ultraSonicSensor = new Ultrasonic(0, 1);
      public final static AHRS navX = new AHRS(NavXComType.kMXP_SPI);
 
     //pid controllers
@@ -86,11 +89,11 @@ public class RobotContainer {
       private final AutoDropOffStraight autoDropStraight = new AutoDropOffStraight(driveSubsystem, coralSubsystem, 
       ultraSonicSensor, navX, pidControllerDriveTrainLeft, pidControllerDriveTrainRight);
 
-      private final AutoDropOffTurnLeft autoDropTLeft = new AutoDropOffTurnLeft(driveSubsystem, coralSubsystem, 
+      /*private final AutoDropOffTurnLeft autoDropTLeft = new AutoDropOffTurnLeft(driveSubsystem, coralSubsystem, 
       ultraSonicSensor, navX);
 
       private final AutoDropOffTurnRight autoDropTRight = new AutoDropOffTurnRight(driveSubsystem, coralSubsystem, 
-      ultraSonicSensor, navX);
+      ultraSonicSensor, navX);*/
 
       
       public final CommandXboxController test = null;
@@ -117,14 +120,14 @@ public class RobotContainer {
     {
       return autoDropStraight;
     }
-    else if (chosen.equals("AutoTurnRight"))
+    /*else if (chosen.equals("AutoTurnRight"))
     {
       return autoDropTRight;
     }
     else if (chosen.equals("AutoTurnLeft"))
     {
       return autoDropTLeft;
-    }
+    }*/
     else
     {
       return new AutoTestPrints(driveSubsystem, chosen);
@@ -136,6 +139,8 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     
+    ultraSonicSensor.setAutomaticMode(true);
+    ultraSonicSensor.setEnabled(true);
     configureBindings();
   }
 
@@ -164,7 +169,7 @@ public class RobotContainer {
 
       //print the distance for now test panic
       //y press
-      new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController, ultraSonicSensor, navX));
+      //new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController, ultraSonicSensor, navX));
      
       //A press
       new Trigger(coralSubsystem::coralLaunchButtonPressedAlign).onTrue(new CoralLaunchAlign(coralSubsystem));

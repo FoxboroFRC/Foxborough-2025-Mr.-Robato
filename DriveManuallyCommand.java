@@ -6,6 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
+
+import javax.lang.model.util.ElementScanner14;
+
 import edu.wpi.first.wpilibj.XboxController;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
@@ -51,56 +54,56 @@ private final XboxController controller;
  //left vv
 if (leftRaw >= 0)
 {
-  if (leftRaw < 0.05) {
-    leftAdjusted = 0;
+  if (leftRaw < 0.1 && leftRaw > 0.02) {
+    leftAdjusted = leftRaw + 0.15;
   }
-  else if (leftRaw >= 0.05 && leftRaw <= .95) {
-   leftAdjusted = leftRaw/1.3 + .25;
+  else if (leftRaw > 0.1 && leftRaw < 0.8){
+   leftAdjusted = leftRaw/1.75 + .25;
   }
-  else {
-    leftAdjusted = 1;
-  }
+  else 
+  leftAdjusted = leftRaw/ 1.5 + .4;
   
 }
 else
 {
   
-  if (leftRaw > -0.05) {
-    leftAdjusted = 0;
+  if (leftRaw > -0.1 && leftRaw < -0.02) {
+    leftAdjusted = leftRaw + 0.15;
   }
-  else if (leftRaw <= -0.05 && leftRaw >= -.95) {
-   leftAdjusted = leftRaw/1.3 - .25;
+  else if (leftRaw < -0.1 && leftRaw < -0.8) {
+   leftAdjusted = leftRaw/1.75 - .25;
   }
-  else {
-    leftAdjusted = -1;
-  }
+  else 
+  leftAdjusted = leftRaw / 1.5 - 0.4;
+  
 }
 
 //right vv
 if (rightInverted >= 0)
 {
-  if (rightInverted < 0.05) {
-    rightAdjusted = 0;
+  if (rightInverted < 0.1 && rightInverted > 0.02) {
+    rightAdjusted = rightInverted + 0.15;
   }
-  else if (rightInverted >= 0.05 && rightInverted <= .95) {
-   rightAdjusted = rightInverted/1.3 + .25;
+  else if (rightInverted > 0.1 && rightInverted < 0.8) {
+   rightAdjusted = rightInverted/1.75 + .25;
   }
-  else {
-    rightAdjusted = 1;
-  }
+  else 
+  rightAdjusted = rightInverted/1.5 + 0.4;
+  
 }
+
 else
 {
   
-  if (rightInverted > -0.05) {
-    rightAdjusted = 0;
+  if (rightInverted > -0.1 && rightInverted < -0.02) {
+    rightAdjusted = rightInverted + 0.15 ;
   }
-  else if (rightInverted <= -0.05 && rightInverted >= -0.95) {
-   rightAdjusted = rightInverted/1.3 - .25;
+  else if (rightInverted < -0.1 && rightInverted > -0.8) {
+   rightAdjusted = rightInverted/1.75 - .25;
   }
-  else {
-    rightAdjusted = -1;
-  }
+  else
+  rightAdjusted = rightInverted/1.5 - 0.4;
+ 
 }
  
 

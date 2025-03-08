@@ -32,7 +32,7 @@ public class AutoDropOffTurnRight extends Command {
 
     private final DriveSubsystem driveSubsystem;
     private final CoralSubsystem coralSubsystem;
-    private Timer timer;
+    private Timer timer = new Timer();
     private SparkClosedLoopController pidControllerLeft;
     private SparkMaxConfig config = new SparkMaxConfig();
     private SparkAnalogSensor sensor;
@@ -40,7 +40,7 @@ public class AutoDropOffTurnRight extends Command {
 
 
     //temp
-    private SparkMax temp = new SparkMax(1, MotorType.kBrushless);
+ 
     
   
   private AnalogInput ultraSonicSensor; //distance thing

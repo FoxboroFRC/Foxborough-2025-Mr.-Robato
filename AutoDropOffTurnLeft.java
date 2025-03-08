@@ -27,7 +27,7 @@ public class AutoDropOffTurnLeft extends Command {
 
     private final DriveSubsystem driveSubsystem;
     private final CoralSubsystem coralSubsystem;
-    private Timer timer;
+    private Timer timer = new Timer();
     private SparkClosedLoopController pidControllerLeft;
     private SparkClosedLoopController pidControllerRight;
     
@@ -85,7 +85,7 @@ public class AutoDropOffTurnLeft extends Command {
     double currentAngle = navX.getYaw();
 
     //change the first value based on how yaw works
-    double error = 60 - currentAngle;
+    double error = 80 - currentAngle;
     if (error > 180) {
       error -= 360;
   } else if (error < -180) {

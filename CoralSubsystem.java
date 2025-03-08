@@ -17,11 +17,16 @@ this.controller = controller;
 
 public void coralLaunch()
 {
-    coralLauncher.setVoltage(10);
+    coralLauncher.setVoltage(7);
 }
 public void coralLaunchWeak()
 {
-    coralLauncher.setVoltage(5);
+    coralLauncher.setVoltage(3);
+}
+
+public void coralLaunchAuto()
+{
+    coralLauncher.setVoltage(3);
 }
 public void coralLaunchAlign()
 {
@@ -41,7 +46,7 @@ public boolean coralLaunchButtonPressedWeak() {
 
 public boolean coralLaunchButtonPressedAlign() {
 
-    return controller.getYButtonPressed();
+    return controller.getRightBumperButtonPressed() || controller.getLeftBumperButtonPressed();
 
 }
 

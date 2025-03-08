@@ -36,8 +36,8 @@ private final Timer timer = new Timer();
   public void execute() {
 
   
- double left =    .5;
- double right = - .5; 
+ double left =    -.5;
+ double right = .5; 
  //rightTriggerAxis is rightY and leftTriggerAxis is rightX
  driveSubsystem.manualDrive(left, right);
  

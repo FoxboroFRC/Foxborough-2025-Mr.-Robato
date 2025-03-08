@@ -13,6 +13,7 @@ public static int leftMasterPort = 6; //left motor ports
 public static int leftSlavePort = 1; 
 public static int rightMasterPort = 3; //right motor ports
 public static int rightSlavePort= 5;
+
 public static int armMotorPort = 8; //arm motor port
 
 public static int climberPort = 4;//climb motor port

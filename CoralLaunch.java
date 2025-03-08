@@ -38,7 +38,7 @@ public class CoralLaunch extends Command
 
   @Override
   public boolean isFinished() {
-    return timer.hasElapsed(0.05);
+    return timer.hasElapsed(0.25);
   }
 }
 

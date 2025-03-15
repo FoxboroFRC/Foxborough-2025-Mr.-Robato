@@ -4,56 +4,26 @@
 
 package frc.robot;
 
-//auto commands
-import frc.robot.commands.AutoDropOffStraight;
-import frc.robot.commands.AutoDropOffTurnLeft;
-import frc.robot.commands.AutoDropOffTurnRight;
-//command imports
-import frc.robot.commands.Autos;
-import frc.robot.commands.Climb;
-import frc.robot.commands.DriveManuallyCommand;
-import frc.robot.commands.CoralLaunch;
-import frc.robot.commands.CoralLaunchAlign;
-import frc.robot.commands.CoralLaunchWeak;
-import frc.robot.commands.ExampleCommand;
-import frc.robot.commands.autoDrive;
-
-
-//test commands
-import frc.robot.commands.TestCommands.AutoTestPrints;
-import frc.robot.commands.TestCommands.TestDrive;
-import frc.robot.commands.TestCommands.SensorTest;
-
-//subsystems
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.armCommand;
+import frc.robot.commands.climbCommand;
+import frc.robot.commands.coralCommand;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Climb;
+import frc.robot.subsystems.Coral;
+import frc.robot.subsystems.DriveBase;
 import frc.robot.subsystems.ExampleSubsystem;
-import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
 
-//wpilib stuff
-import frc.robot.util.RoboMap;
+import com.revrobotics.RelativeEncoder;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj2.command.button.POVButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.Ultrasonic;
-
-import edu.wpi.first.wpilibj.XboxController;
-
-//gyro
-import com.studica.frc.AHRS;
-import com.studica.frc.AHRS.NavXComType;
-
-//pidcontroller
-import com.revrobotics.spark.SparkClosedLoopController;
-import com.revrobotics.spark.SparkBase.ControlType;
-
-//camera
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
-
-//dashboard
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,86 +31,39 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
-
-// A simple auto routine that drives forward a specified distance, and then stops.
-  
 public class RobotContainer {
+  // The robot's subsystems and commands are defined here...
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  public final XboxController driverController =
-     new XboxController(RoboMap.joystickPort);
-
-     //subsystems
-     private final DriveSubsystem driveSubsystem = new DriveSubsystem(driverController);
-     private final CoralSubsystem coralSubsystem = new CoralSubsystem(driverController);
-
-     //sensors
-     //private AnalogInput ultraSonicSensor = new AnalogInput(RoboMap.ultraSonicSensorPort);
-     private Ultrasonic ultraSonicSensor = new Ultrasonic(0, 1);
-     public final static AHRS navX = new AHRS(NavXComType.kMXP_SPI);
-
-    //pid controllers
-    private final SparkClosedLoopController pidControllerDriveTrainLeft = driveSubsystem.pidControllerLeftGroup;
-    private final SparkClosedLoopController pidControllerDriveTrainRight = driveSubsystem.pidControllerLeftGroup;
-
-     //simple is back off line. Complex is drop off
-     private final autoDrive simpleAuto =
-      new autoDrive(driveSubsystem);
-
-      private final AutoDropOffStraight autoDropStraight = new AutoDropOffStraight(driveSubsystem, coralSubsystem, 
-      ultraSonicSensor, navX, pidControllerDriveTrainLeft, pidControllerDriveTrainRight);
-
-      /*private final AutoDropOffTurnLeft autoDropTLeft = new AutoDropOffTurnLeft(driveSubsystem, coralSubsystem, 
-      ultraSonicSensor, navX);
-
-      private final AutoDropOffTurnRight autoDropTRight = new AutoDropOffTurnRight(driveSubsystem, coralSubsystem, 
-      ultraSonicSensor, navX);*/
-
-      
-      public final CommandXboxController test = null;
-      /*controller is not the same as xbox controller
-      *please cross reference for right commands and values
-      */
-
-  //we don't have a complexAuto lol
-  //private final Command complexAuto = new ComplexAuto(robotDrive, hatchSubsystem);
-
- /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-
-    String chosen =Robot.chooser.getSelected();
-    if (chosen.equals("Simple"))
-    {
-      return simpleAuto;
-    }
-    else if (chosen.equals("AutoStraight"))
-    {
-      return autoDropStraight;
-    }
-    /*else if (chosen.equals("AutoTurnRight"))
-    {
-      return autoDropTRight;
-    }
-    else if (chosen.equals("AutoTurnLeft"))
-    {
-      return autoDropTLeft;
-    }*/
-    else
-    {
-      return new AutoTestPrints(driveSubsystem, chosen);
-    }
- }
+  //joystick class is used because we don't have an xbox, so usng joystick is just easy
+  private final Joystick driverjs = new Joystick(0);
+  
 
 
+  //joystick bindings
+  //buttons used: 1 2 3 4 5 6 7 8 9 10
+  private final JoystickButton coralbutton = new JoystickButton(driverjs, 3);
+  private final JoystickButton coralFastbutton = new JoystickButton(driverjs, 4);
+  private final JoystickButton coralButtonReverse = new JoystickButton(driverjs, 5);
+  private final JoystickButton slowButton = new JoystickButton(driverjs, 6);
+  private final JoystickButton climbOutButton = new JoystickButton(driverjs, 2);
+  private final JoystickButton climbInButton = new JoystickButton(driverjs, 1);
+  private final JoystickButton armLow = new JoystickButton(driverjs, 7);
+  private final JoystickButton armHigh = new JoystickButton(driverjs, 8);
+  private final JoystickButton armBack = new JoystickButton(driverjs, 9);
+ 
+
+  //makes subsystem references, which the commands use as parameters
+  private final DriveBase drivebase = new DriveBase(6, 1, 3,5 );
+  private final Coral coral = new Coral(2);
+  private final Climb climb = new Climb (4);
+  private final Arm arm = new Arm(7);
+
+  private final RelativeEncoder armEncoder = arm.armEncoder;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
-    
-    ultraSonicSensor.setAutomaticMode(true);
-    ultraSonicSensor.setEnabled(true);
+    //defaultCommand sets the command that will always be on
+    drivebase.setDefaultCommand(new DriveCommand(drivebase, () -> 0.8 * driverjs.getRawAxis(1), () -> 0.8 * driverjs.getRawAxis(5)));
     configureBindings();
   }
 
@@ -155,39 +78,35 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    
-    /*new Trigger(m_ExampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_ExampleSubsystem));
-*/
+    // new Trigger(m_exampleSubsystem::exampleCondition)
+    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
+
+    //does the speed constants here instead of in the command so constants are 
+    //all in one place
+    coralbutton.whileTrue(new coralCommand(coral, 0.4));
+    coralFastbutton.whileTrue(new coralCommand(coral, 0.7));
+    coralButtonReverse.whileTrue(new coralCommand(coral, -0.6));
+    slowButton.whileTrue(new DriveCommand(drivebase, () -> 0.9 * driverjs.getRawAxis(1), () -> 0.9 * driverjs.getRawAxis(5)));
+    climbOutButton.whileTrue(new climbCommand(climb, 0.5));
+    climbInButton.whileTrue(new climbCommand(climb, -0.5));
+    armLow.whileTrue(new armCommand(arm, 155, false));
+    armHigh.whileTrue(new armCommand(arm, 155, false));
+    armBack.whileTrue(new armCommand(arm, 0, true));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    driveSubsystem.setDefaultCommand(
-      new DriveManuallyCommand(driveSubsystem, driverController)); //Always active
-
-      //coral launch on Xpress
-      new Trigger(coralSubsystem::coralLaunchButtonPressed).onTrue(new CoralLaunch(coralSubsystem));
-
-      //print the distance for now test panic
-      //y press
-      //new Trigger(driveSubsystem::getSensorTestButton).onTrue(new SensorTest(driveSubsystem, driverController, ultraSonicSensor, navX));
-     
-      //A press
-      new Trigger(coralSubsystem::coralLaunchButtonPressedAlign).onTrue(new CoralLaunchAlign(coralSubsystem));
-
-      //b presss
-      new Trigger(coralSubsystem::coralLaunchButtonPressedWeak).onTrue(new CoralLaunchWeak(coralSubsystem));
-
-      //upArro press
-      new Trigger(driveSubsystem::climbButtonPressed).onTrue(new Climb(driveSubsystem, driverController));
-      
-
-      //getA is actuall X
-      //getB is actually y
-      //getY is actually A
-      //getX is actually B
-        
   }
-   //m_driverController.leftStick().whileTrue(new DriveManuallyCommand());
-   //m_driverController.rightStick().whileTrue(new DriveManuallyCommand());
-  
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand() {
+    // An example command will be run in autonomous
+
+    //drives for some, waits for 6 seconds, then drops the coral
+    return new DriveCommand(drivebase, () -> -0.5, () -> -0.5)
+      .withDeadline(new WaitCommand(6))
+      .andThen(new coralCommand(coral, 0.4));
+  }
 }

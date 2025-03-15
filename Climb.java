@@ -1,40 +1,43 @@
+package frc.robot.subsystems;
 
-package frc.robot.commands;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+import com.revrobotics.spark.config.SparkMaxConfig;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class Climb extends Command{
+public class Climb extends SubsystemBase{
+    /*Creates a new Climb */
+    //subsystems has the methods that the commands call on
 
-    private final DriveSubsystem driveSubsystem;
-    private final XboxController controller;
+    private SparkMax climbMotor;
 
-    public Climb(DriveSubsystem driveSubsystem, XboxController controller)
-    {
-        this.driveSubsystem = driveSubsystem;
-        this.controller = controller;
-
-        addRequirements(driveSubsystem);
+    public Climb(int motorID) {
+        climbMotor = new SparkMax(motorID, MotorType.kBrushed);
+        //can also config in rev software
+        //but doing it here makes it easier to replace hardware
+    SparkMaxConfig config = new SparkMaxConfig();
+    config.smartCurrentLimit(60, 60);
+    config.idleMode(IdleMode.kBrake);
+    config.inverted(false);
+    climbMotor.configure(config, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
+    public void spinMotor(double speed) {
+        climbMotor.set(speed);
+      }
     
-    public void initialize() {
-
-    }
-
-    public void execute() {
-
-    driveSubsystem.climb(0.5);
-        
-    }
-
-    public void end() {
-        driveSubsystem.climb(0);
-    }
+      public void stopMotor() {
+        climbMotor.stopMotor();
+      }
     
-    public boolean hasFinished() {
-        return controller.getPOV() == -1;
-    }
+      @Override
+      public void periodic() {
+        // This method will be called once per scheduler run
+      }
+
 }

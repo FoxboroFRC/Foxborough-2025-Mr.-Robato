@@ -54,9 +54,9 @@ public class RobotContainer {
 
   //makes subsystem references, which the commands use as parameters
   private final DriveBase drivebase = new DriveBase(6, 1, 3,5 );
-  private final Coral coral = new Coral(2);
-  private final Climb climb = new Climb (4);
-  private final Arm arm = new Arm(7);
+  private final Coral coral = new Coral(7);
+  private final Climb climb = new Climb (2);
+  private final Arm arm = new Arm(4);
 
   private final RelativeEncoder armEncoder = arm.armEncoder;
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -83,14 +83,14 @@ public class RobotContainer {
 
     //does the speed constants here instead of in the command so constants are 
     //all in one place
-    coralbutton.whileTrue(new coralCommand(coral, 0.4));
-    coralFastbutton.whileTrue(new coralCommand(coral, 0.7));
+    coralbutton.whileTrue(new coralCommand(coral, 0.3));
+    coralFastbutton.whileTrue(new coralCommand(coral, 0.6));
     coralButtonReverse.whileTrue(new coralCommand(coral, -0.6));
-    slowButton.whileTrue(new DriveCommand(drivebase, () -> 0.9 * driverjs.getRawAxis(1), () -> 0.9 * driverjs.getRawAxis(5)));
+    slowButton.whileTrue(new DriveCommand(drivebase, () -> 1.0 * driverjs.getRawAxis(1), () -> 1.0 * driverjs.getRawAxis(5)));
     climbOutButton.whileTrue(new climbCommand(climb, 0.5));
     climbInButton.whileTrue(new climbCommand(climb, -0.5));
-    armLow.whileTrue(new armCommand(arm, 155, false));
-    armHigh.whileTrue(new armCommand(arm, 155, false));
+    armLow.whileTrue(new armCommand(arm, 155.0, false));
+    armHigh.whileTrue(new armCommand(arm, 135.0, false));
     armBack.whileTrue(new armCommand(arm, 0, true));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

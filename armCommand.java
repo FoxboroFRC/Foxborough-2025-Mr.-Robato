@@ -48,7 +48,7 @@ public class armCommand extends Command{
     //otherwise do like the actual thing where it stops at position
     
     if(!reset){
-        arm.spinMotor(angle/360);
+        arm.spinMotor(-angle/360.0);
     }
     else
     {
